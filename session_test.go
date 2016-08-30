@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/KuroiKitsu/go-anilist"
+	"github.com/robertgzr/go-anilist"
 )
 
 type credentials struct {

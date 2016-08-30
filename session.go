@@ -165,13 +165,13 @@ func (s *Session) searchPages(searchURL *url.URL) (pages [][]byte, err error) {
 			break
 		}
 
-		pageResults := make([]interface{}, 0)
+		var pageResults interface{}
 		err = json.Unmarshal(rawBody, &pageResults)
 		if err != nil {
 			return
 		}
 
-		if len(pageResults) == 0 {
+		if page > 1 {
 			break
 		}
 
