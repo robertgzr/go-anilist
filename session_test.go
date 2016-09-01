@@ -50,6 +50,19 @@ func TestSession_SearchCharacter(t *testing.T) {
 	}
 }
 
+func TestSession_GetAnime(t *testing.T) {
+	s := getSession(t)
+
+	result, err := s.GetAnime(1)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if result == nil {
+		t.Fatal("no results")
+	}
+}
+
 func getSession(t *testing.T) *anilist.Session {
 	c := getCredentials(t)
 

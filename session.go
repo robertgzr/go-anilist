@@ -182,6 +182,35 @@ func (s *Session) searchPages(searchURL *url.URL) (pages [][]byte, err error) {
 	return
 }
 
+func (s *Session) query(queryURL *url.URL) (rawResult []byte, err error) {
+	var (
+		req  *http.Request
+		resp *http.Response
+	)
+
+	query := queryURL.Query()
+
+	queryURL.RawQuery = query.Encode()
+
+	req, err = s.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return
+	}
+
+	resp, err = http.DefaultClient.Do(req)
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+
+	rawResult, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return
+	}
+
+	return
+}
+
 func (s *Session) SearchAnime(terms string) (results []*AnimeSmall, err error) {
 	var (
 		searchURL *url.URL
@@ -256,6 +285,33 @@ func (s *Session) SearchCharacter(terms string) (results []*CharacterSmall, err 
 		}
 
 		results = append(results, pageResults...)
+	}
+
+	return
+}
+
+func (s *Session) GetAnime(id int) (result *Anime, err error) {
+	var (
+		queryURL *url.URL
+
+		rawBody []byte
+	)
+
+	getAnimeURLStr := fmt.Sprintf("anime/%d", id)
+
+	queryURL, err = APIURL.Parse(getAnimeURLStr)
+	if err != nil {
+		return
+	}
+
+	rawBody, err = s.query(queryURL)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(rawBody, &result)
+	if err != nil {
+		return
 	}
 
 	return
