@@ -24,13 +24,16 @@ func TestSession_SearchAnime(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	results, err := s.SearchAnime("shakugan no shana")
-	if err != nil {
-		t.Fatal(err)
-	}
+	var searchterms = []string{"shakugan no shana", "new game!"}
+	for _, term := range searchterms {
+		results, err := s.SearchAnime(term)
+		if err != nil {
+			t.Fatalf("failed searching with '%s', %v", term, err)
+		}
 
-	if len(results) == 0 {
-		t.Fatal("no results")
+		if len(results) == 0 {
+			t.Fatal("no results")
+		}
 	}
 }
 

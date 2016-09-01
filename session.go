@@ -122,6 +122,7 @@ func (s *Session) NewRequest(method, urlStr string, body io.Reader) (req *http.R
 func (s *Session) escapeTerms(terms string) (escapedTerms string) {
 	escapedTerms = url.QueryEscape(terms)
 	escapedTerms = strings.Replace(escapedTerms, "+", "%20", -1)
+	escapedTerms = strings.Replace(escapedTerms, "%21", "\\%21", -1)
 	return
 }
 
