@@ -237,6 +237,7 @@ func (s *Session) SearchAnime(terms string) (results []*AnimeSmall, err error) {
 		pageResults := make([]*AnimeSmall, 0)
 		err = json.Unmarshal(rawBody, &pageResults)
 		if err != nil {
+			err = UnmarshalErrorResponse(rawBody)
 			return
 		}
 
@@ -277,6 +278,7 @@ func (s *Session) SearchCharacter(terms string) (results []*CharacterSmall, err 
 		pageResults := make([]*CharacterSmall, 0)
 		err = json.Unmarshal(rawBody, &pageResults)
 		if err != nil {
+			err = UnmarshalErrorResponse(rawBody)
 			return
 		}
 
@@ -311,6 +313,7 @@ func (s *Session) GetAnime(id int) (result *Anime, err error) {
 
 	err = json.Unmarshal(rawBody, &result)
 	if err != nil {
+		err = UnmarshalErrorResponse(rawBody)
 		return
 	}
 
